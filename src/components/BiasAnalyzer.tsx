@@ -22,7 +22,6 @@ export default function BiasAnalyzer() {
   
     try {
       const response = await invokeSageMakerEndpoint(truncatedArticle);
-      console.log(response)
   
       setResult(response.predicted_class || 'Analysis complete: No significant bias detected');
     } catch (err) {
@@ -32,8 +31,6 @@ export default function BiasAnalyzer() {
       setLoading(false);
     }
   };
-
-  console.log(article.length);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
