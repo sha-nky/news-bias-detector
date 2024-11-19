@@ -24,13 +24,13 @@ export default function Home() {
                 News Bias Analyzer
               </span>
             </div>
-            <button
+            {/* <button
               onClick={handleLogout}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
             >
               <LogOut className="h-5 w-5 mr-2" />
               Sign Out
-            </button>
+            </button> */}
           </div>
         </div>
       </nav>
