@@ -3,24 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { Lock, Mail, Newspaper } from 'lucide-react';
 
-export default function LoginForm() {
+export default function AuthForm() {
+  const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign In and Sign Up
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const login = useAuthStore((state) => state.login);
+  const signUp = useAuthStore((state) => state.signUp); // Assume `signUp` is in `authStore`
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!email || !password) {
       setError('Please fill in all fields');
       return;
     }
 
-    login(email, password);
-    navigate('/home');
+    if (isSignUp) {
+      // Handle Sign Up
+      signUp(email, password)
+        .then(() => navigate('/home')) // Navigate on successful sign up
+        .catch((err: any) => setError(err.message || 'Sign Up Failed'));
+    } else {
+      // Handle Login
+      login(email, password)
+        .then(() => navigate('/home')) // Navigate on successful login
+        .catch((err: any) => setError(err.message || 'Login Failed'));
+    }
   };
 
   return (
@@ -30,10 +41,14 @@ export default function LoginForm() {
           <div className="flex justify-center">
             <Newspaper className="h-12 w-12 text-indigo-600" />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">News Bias Analyzer</h2>
-          <p className="mt-2 text-sm text-gray-600">Sign in to analyze news articles</p>
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            {isSignUp ? 'Create an Account' : 'Sign In to News Bias Analyzer'}
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            {isSignUp ? 'Sign up to start analyzing news articles' : 'Sign in to analyze news articles'}
+          </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
@@ -55,7 +70,7 @@ export default function LoginForm() {
                 />
               </div>
             </div>
-            
+
             <div>
               <label htmlFor="password" className="sr-only">Password</label>
               <div className="relative">
@@ -66,7 +81,7 @@ export default function LoginForm() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete={isSignUp ? 'new-password' : 'current-password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -85,9 +100,20 @@ export default function LoginForm() {
             type="submit"
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
           >
-            Sign in
+            {isSignUp ? 'Sign Up' : 'Sign In'}
           </button>
         </form>
+
+        <div className="text-center mt-4">
+          <button
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="text-indigo-600 hover:text-indigo-800 font-medium text-sm"
+          >
+            {isSignUp
+              ? 'Already have an account? Sign In'
+              : 'Don’t have an account? Sign Up'}
+          </button>
+        </div>
       </div>
     </div>
   );
