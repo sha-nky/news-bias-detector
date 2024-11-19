@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AlertCircle, Loader2 } from 'lucide-react';
+import { invokeSageMakerEndpoint } from '../invokeSageMakerEndpoint';
 
 export default function BiasAnalyzer() {
   const [article, setArticle] = useState('');
@@ -13,33 +14,26 @@ export default function BiasAnalyzer() {
       return;
     }
 
+    const truncatedArticle = article.slice(0, 2500);
+  
     setLoading(true);
     setError('');
     setResult(null);
-
+  
     try {
-      // In a real app, replace with your actual API endpoint
-      const response = await fetch('https://api.huggingface.co/models/your-model', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add your API key here
-          'Authorization': 'Bearer your-api-key'
-        },
-        body: JSON.stringify({ inputs: article }),
-      });
-
-      if (!response.ok) throw new Error('Failed to analyze article');
-
-      const data = await response.json();
-      // This is a placeholder result - adjust based on your actual API response
-      setResult(data.result || 'Analysis complete: No significant bias detected');
+      const response = await invokeSageMakerEndpoint(truncatedArticle);
+      console.log(response)
+  
+      setResult(response.predicted_class || 'Analysis complete: No significant bias detected');
     } catch (err) {
       setError('Failed to analyze article. Please try again.');
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
+
+  console.log(article.length);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
