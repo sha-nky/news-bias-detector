@@ -6,7 +6,7 @@ export async function invokeSageMakerEndpoint(article: string): Promise<any> {
   const accessKeyId = "AKIAQMEY5UZA6NGXB57I";
   const secretAccessKey = "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";
   const region = "eu-north-1";
-  const endpoint = "https://runtime.sagemaker.eu-north-1.amazonaws.com/endpoints/huggingface-pytorch-inference-2024-11-20-06-46-49-845/invocations";
+  const endpoint = "https://runtime.sagemaker.eu-north-1.amazonaws.com/endpoints/huggingface-pytorch-inference-2024-11-17-19-19-37-103/invocations";
 
   const requestBody = JSON.stringify({ "text": article });
 
