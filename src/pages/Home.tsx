@@ -10,7 +10,7 @@ export default function Home() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    window.location.href = "https://newsbiasdetector.auth.eu-north-1.amazoncognito.com/login?client_id=496vbants31mfmsdsfiems9714&response_type=code&scope=email+openid&redirect_uri=https%3A%2F%2Fmain.d3gtgoglj6llsy.amplifyapp.com%2F";
   };
 
   return (
@@ -24,13 +24,13 @@ export default function Home() {
                 News Bias Analyzer
               </span>
             </div>
-            {/* <button
+            <button
               onClick={handleLogout}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
             >
               <LogOut className="h-5 w-5 mr-2" />
               Sign Out
-            </button> */}
+            </button>
           </div>
         </div>
       </nav>
